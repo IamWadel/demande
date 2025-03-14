@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>Test AR</title>
+    <title>Demande en mariage en AR</title>
     
     <!-- Importation des bibliothèques A-Frame et AR.js (optimisée pour iOS) -->
     <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
@@ -15,7 +15,7 @@
 </head>
 <body>
 
-    <!-- Scène AR parfaitement adaptée à l'iPhone -->
+    <!-- Scène AR optimisée pour l'iPhone -->
     <a-scene 
         embedded 
         arjs="sourceType: webcam; debugUIEnabled: false;"
@@ -24,16 +24,28 @@
         <!-- Texte flottant en AR -->
         <a-text 
             value="Veux-tu m'épouser ?" 
-            position="0 1.5 -3" 
+            position="0 2 -3" 
             color="gold" 
-            scale="2 2 2"
-            animation="property: scale; to: 2.2 2.2 2.2; dir: alternate; loop: true; dur: 1000">
+            scale="4 4 4"  <!-- Augmenter légèrement la taille pour plus de visibilité sur mobile -->
+            align="center"
+            animation="property: scale; to: 4.2 4.2 4.2; dir: alternate; loop: true; dur: 1000">
         </a-text>
 
         <!-- Cœur flottant pour effet romantique -->
-        <a-entity geometry="primitive: sphere" material="color: red" 
-                  position="0 1.2 -3" scale="0.3 0.3 0.3" 
-                  animation="property: position; to: 0 1.4 -3; dir: alternate; loop: true; dur: 800">
+        <a-entity 
+            geometry="primitive: sphere; radius: 0.4"  <!-- Utilisation d'un cœur 3D -->
+            material="color: red; emissive: red"  <!-- Ajout d'un effet lumineux pour plus de réalisme -->
+            position="0 1.2 -3" 
+            animation="property: position; to: 0 1.4 -3; dir: alternate; loop: true; dur: 800; easing: ease-in-out">
+        </a-entity>
+
+        <!-- Cœur 3D pour l'animation -->
+        <a-entity 
+            geometry="primitive: torus; radius: 0.3; radiusTubular: 0.05"  <!-- Utilisation d'un cœur en forme de torus -->
+            material="color: red; emissive: red"
+            position="0 1.2 -3"
+            scale="0.5 0.5 0.5"
+            animation="property: position; to: 0 1.4 -3; dir: alternate; loop: true; dur: 800; easing: ease-in-out">
         </a-entity>
 
         <!-- Caméra WebAR optimisée -->
