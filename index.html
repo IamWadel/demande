@@ -2,73 +2,47 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>Test en AR</title>
-    
-    <!-- Importation des bibliothèques A-Frame et AR.js (optimisée pour iOS) -->
-    <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
-    <script src="https://rawcdn.githack.com/jeromeetienne/AR.js/1.7.2/aframe/build/aframe-ar.min.js"></script>
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Demande en Mariage AR</title>
+    <script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/ar.js@latest"></script>
     <style>
         body { margin: 0; overflow: hidden; }
+        #message {
+            position: absolute;
+            bottom: 20px;
+            width: 100%;
+            text-align: center;
+            font-size: 24px;
+            color: white;
+            background: rgba(0, 0, 0, 0.6);
+            padding: 10px;
+            display: none;
+        }
     </style>
 </head>
 <body>
+    <div id="message">Veux-tu m'épouser ? ❤️</div>
 
-    <!-- Scène AR optimisée pour l'iPhone -->
-    <a-scene 
-        embedded 
-        arjs="sourceType: webcam; debugUIEnabled: false;"
-        renderer="antialias: true; alpha: true;">
-        
-        <!-- Texte flottant en AR -->
-        <a-text 
-            value="?Veux-tu m'épouser ?" 
-            position="0 2 -3" 
-            color="gold" 
-            scale="4 4 4"  <!-- Augmenter légèrement la taille pour plus de visibilité sur mobile -->
-            align="center"
-            animation="property: scale; to: 4.2 4.2 4.2; dir: alternate; loop: true; dur: 1000">
-        </a-text>
-
-        <!-- Cœur flottant pour effet romantique -->
-        <a-entity 
-            geometry="primitive: sphere; radius: 0.4"  <!-- Utilisation d'un cœur 3D -->
-            material="color: red; emissive: red"  <!-- Ajout d'un effet lumineux pour plus de réalisme -->
-            position="0 1.2 -3" 
-            animation="property: position; to: 0 1.4 -3; dir: alternate; loop: true; dur: 800; easing: ease-in-out">
-        </a-entity>
-
-        <!-- Cœur 3D pour l'animation -->
-        <a-entity 
-            geometry="primitive: torus; radius: 0.3; radiusTubular: 0.05"  <!-- Utilisation d'un cœur en forme de torus -->
-            material="color: red; emissive: red"
-            position="0 1.2 -3"
-            scale="0.5 0.5 0.5"
-            animation="property: position; to: 0 1.4 -3; dir: alternate; loop: true; dur: 800; easing: ease-in-out">
-        </a-entity>
-
-        <!-- Caméra WebAR optimisée -->
-        <a-entity camera position="0 1.6 0" look-controls-enabled="true"></a-entity>
-
+    <a-scene embedded arjs>
+        <!-- Marqueur AR -->
+        <a-marker preset="hiro">
+            <!-- Texte flottant -->
+            <a-entity position="0 0.5 0" rotation="-90 0 0">
+                <a-text value="Veux-tu m'épouser ?" align="center" color="red" width="2"></a-text>
+            </a-entity>
+        </a-marker>
+        <a-entity camera></a-entity>
     </a-scene>
 
-    <!-- Script pour forcer l'autorisation de la caméra sur iPhone -->
     <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-                navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } })
-                .then(function (stream) {
-                    console.log("Caméra activée avec succès !");
-                })
-                .catch(function (error) {
-                    alert("Erreur : Veuillez autoriser l'accès à la caméra dans les paramètres de Safari.");
-                });
-            } else {
-                alert("Votre appareil ne prend pas en charge WebAR.");
-            }
+        document.querySelector("a-marker").addEventListener("markerFound", function() {
+            document.getElementById("message").style.display = "block";
+        });
+
+        document.querySelector("a-marker").addEventListener("markerLost", function() {
+            document.getElementById("message").style.display = "none";
         });
     </script>
-
 </body>
 </html>
